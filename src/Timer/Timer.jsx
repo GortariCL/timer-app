@@ -8,17 +8,22 @@ const Timer = () => {
   const [inputValue, setInputValue] = useState('');
   const [isJuanin, setIsJuanin] = useState(false)
   const intervalRef = useRef(null);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
 
   const startTimer = () => {
-    if (isActive || inputValue === '') return;
+    if (isActive || inputValue < 1) {
+      setErrorMessage(true);
+      return;
+    }
     const totalSeconds = parseInt(inputValue) * 60;
 
     setSeconds(totalSeconds);
     setIsActive(true);
+    setErrorMessage(false);
     intervalRef.current = setInterval(() => {
       setSeconds((prevSeconds) => {
         if (prevSeconds === 1) setIsJuanin(!isJuanin);
@@ -38,6 +43,7 @@ const Timer = () => {
     setInputValue('');
     setIsJuanin(false);
     setSeconds(0);
+    setErrorMessage(false);
   };
 
   const formatTime = (time) => {
@@ -49,7 +55,12 @@ const Timer = () => {
   return (
     <div className="timer">
       <h1 className="title">Temporizador G17:</h1>
-      <p className="message">Ingresa el tiempo</p>
+      <p
+        className={errorMessage ? "error__message" : "message"}
+        style={isActive ? {display: "none"} : {display: "block"}}
+      >
+        {errorMessage ? "Debes ingresar números mayor a 0" : "Ingresa el tiempo"}
+      </p>
       <div className="input__container">
         <input
           className="timer__input"
@@ -75,9 +86,11 @@ const Timer = () => {
       }
       <div className="buttons">
         {!isActive ? (
-          <button className={isJuanin ? 'start__button__disabled' : 'start__button'} onClick={startTimer} disabled={isJuanin}>Start</button>
+          <button className={isJuanin ? 'start__button__disabled' : 'start__button'} onClick={startTimer}
+                  disabled={isJuanin}>Start</button>
         ) : (
-          <button className={isJuanin ? 'stop__button__disabled' : 'stop__button'} onClick={stopTimer} disabled={isJuanin}>Stop</button>
+          <button className={isJuanin ? 'stop__button__disabled' : 'stop__button'} onClick={stopTimer}
+                  disabled={isJuanin}>Stop</button>
         )}
         <button className="reset__button" onClick={resetTimer}>Reset</button>
       </div>

@@ -60,6 +60,10 @@
     color: darkred;
 }
 
+.gif__dev {
+    width: 300px;
+}
+
 .buttons {
     display: flex;
     gap: 10px;

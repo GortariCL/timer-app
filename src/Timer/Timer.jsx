@@ -1,6 +1,19 @@
-import {useState, useRef} from 'react';
+import {useState, useRef, useEffect} from 'react';
 
 import "./Timer.css";
+
+const devGifs = [
+  "/1.gif",
+  "/2.gif",
+  "/3.gif",
+  "/4.gif",
+  "/5.gif",
+  "/6.gif",
+  "/7.gif",
+  "/9.gif",
+  "/11.gif",
+  "/12.gif"
+];
 
 const Timer = () => {
   const [seconds, setSeconds] = useState(0);
@@ -9,6 +22,7 @@ const Timer = () => {
   const [isJuanin, setIsJuanin] = useState(false)
   const intervalRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState(false);
+  const [currentGif, setCurrentGif] = useState(null);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -20,10 +34,11 @@ const Timer = () => {
       return;
     }
     const totalSeconds = parseInt(inputValue) * 60;
-
+    const randomIndex = Math.floor(Math.random() * devGifs.length);
     setSeconds(totalSeconds);
     setIsActive(true);
     setErrorMessage(false);
+    setCurrentGif(devGifs[randomIndex]);
     intervalRef.current = setInterval(() => {
       setSeconds((prevSeconds) => {
         if (prevSeconds === 1) setIsJuanin(!isJuanin);
@@ -79,7 +94,7 @@ const Timer = () => {
           :
           isJuanin
             ?
-            <img src="/31minutos-estamos-al-aire.gif" alt="juanin"/>
+            <img className="gif__dev" src={currentGif} alt="gif dev"/>
             :
             <h1 className='time'>{formatTime(seconds)}</h1>
 

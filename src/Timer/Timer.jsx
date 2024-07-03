@@ -12,7 +12,8 @@ const devGifs = [
   "/7.gif",
   "/9.gif",
   "/11.gif",
-  "/12.gif"
+  "/12.gif",
+  "/13.gif"
 ];
 
 const Timer = () => {
@@ -74,7 +75,13 @@ const Timer = () => {
         className={errorMessage ? "error__message" : "message"}
         style={isActive ? {display: "none"} : {display: "block"}}
       >
-        {errorMessage ? "Debes ingresar números mayor a 0" : "Ingresa el tiempo"}
+        {
+          errorMessage
+            ?
+            "Debes ingresar números mayor a 0"
+            :
+            "Ingresa el tiempo"
+        }
       </p>
       <div className="input__container">
         <input
